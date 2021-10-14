@@ -26,3 +26,11 @@ Intellij Idea: Scala 3 comes built-in with IDE support, to try it out see IDE su
 - Withdraw : - Customer can withdraw the cash.<br>
 - Deposit : - Customer can Deposit the cash.<br>
 - Transaction History : - can view the Transaction History.<br>
+<h2> How to Execute </h2><br>
+1. Clone the project and save in saparate folder.<br>
+2. Create database by the name "my_bank_app" and import database tables(saved in folder "my_bank_app") in workbench.<br>
+3. Import the project (folder name in git project: bankappnew4) in Intellij Idea.<br>
+4. Build the project using sbt. As the dependencies are added in build.sbt file, it will add external jar files in library(Like Ebean library, Json Library, ).<br>
+5. Run the project using sbt.<br>
+6. On the otherhand, save the other folder(folder name in git project: HTML Pages hosted on tomcat)in the webapps of Apache Tomcat.<br>
+7. Run tomcat server and then HTML pages, starting from index.html page.<br>

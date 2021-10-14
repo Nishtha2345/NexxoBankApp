@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<form action="/withdraw/Cash" method="POST">
+  <font color="blood red"></font>
+
+    <table cellpadding="10" width="50%" bgcolor="#fff2cc" align="center"
+           cellspacing="2">
+
+      <tr>
+        <td colspan=2>
+          <center><font size=6><b>Withdraw Cash</b></font></center>
+        </td>
+      </tr>
+
+      <tr>
+        <td> <b>userId</b></td>
+        <td><input type="text" name="userId" id="userId" size="30"></td>
+      </tr>
+
+      <tr>
+        <td><b> password</b></td>
+        <td><b><input type=text name="password" id="password" size="30"></b></td>
+      </tr>
+
+      <tr>
+        <td><b> amount</b></td>
+        <td><b><input type=text name=amount id=amount size="30"></b></td>
+      </tr>
+
+
+      <tr>
+
+        <td colspan="2"><button type="submit"   style="position:relative; left:125px; background-color:brown;color:white;width:100px;
+height:20px;" >Submit</button></td>
+        <div id="responsemessage"></div>
+    </table>
+</form>
+</body>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+
+       $('button').click(function(e){
+       e.preventDefault();
+       var userid=$("#userId").val();
+       var password=$("#password").val();
+       var amount=$("#amount").val();
+
+      $.ajax({
+        url: "http://localhost:9000/withdraw/Cash",
+        type: "POST",
+        dataType: 'json',
+        data: {
+               id:userid,
+               password:password,
+                 amount:amount
+                 },
+          success: function(response)
+          {
+              alert(response.message);
+             console.log(response);
+          },
+
+          error:function(response)
+          {console.log(response);
+
+          }
+
+       });
+       });
+</script>
+
+</html>

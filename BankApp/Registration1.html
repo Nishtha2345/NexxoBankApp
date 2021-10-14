@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <font color="blood red">
+
+        <table cellpadding="2" width="20%" bgcolor="#fff2cc" align="center"
+               cellspacing="2">
+
+            <tr>
+                <td colspan=2>
+                    <center><font size=6><b>Sign Up</b></font></center>
+                </td>
+            </tr>
+
+            <tr>
+                <td><b> fName</b></td>
+                <td><input type=text name=fName id="fName" size="30"></td>
+            </tr>
+
+            <tr>
+                <td><b>lName</b></td>
+                <td><input type=text name=lName id="lName" size="30"></td>
+            </tr>
+
+
+            <tr>
+                <td><b> email</b></td>
+                <td><input type="email" name=email id="email" size="30"></td>
+            </tr>
+
+            <tr>
+                <td><b> aadharNo</b></td>
+                <td><input type=text name=aadharNo id="aadharNo" size="30"></td>
+            </tr>
+
+
+            <tr>
+            <td><b> mobileNo</b></td>
+            <td><input type=text name=mobileNo id="mobileNo" size="30"></td>
+            </tr>
+
+            <tr>
+                <td><b> password</b></td>
+                <td><input type=password name=password id="password" size="30"></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td colspan="2"><button type="submit" id="button"   style="position:relative; left:125px; background-color:brown;color:white;width:100px;
+height:20px;" >Submit</button></td>
+
+            </tr>
+
+            <div style="text-align:center" id="responsemessage"></div>
+        </table>
+
+
+    </font>
+</body>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+       $(document).ready(function(){
+
+       $('button').click(function(e){
+       e.preventDefault();
+       var firstName=$("#fName").val();
+       var lastName=$("#lName").val();
+       var email=$("#email").val();
+       var aadhaarNo=$("#aadharNo").val();
+       var mobileNo=$("#mobileNo").val();
+       var password=$("#password").val();
+
+      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		if(firstName && lastName && email && aadhaarNo && mobileNo && password ){
+		if(!regex.test(email)){
+		 alert("enter valid email id");
+		}else{
+
+		if(mobileNo.length==10){
+		if(aadhaarNo.length==12){
+
+      $.ajax({
+        url: "http://localhost:9000/save/data",
+        type: "POST",
+        dataType: 'json',
+        data: {firstName:firstName,
+             lastName:lastName,
+             email:email,
+             aadhaarNo:aadhaarNo,
+             mobileNo:mobileNo,
+             password:password
+
+
+             },
+          success: function(response)
+          {
+             console.log(response);
+             $('#responsemessage').html(response.message);
+          },
+          
+          error:function(response)
+          {console.log(response);
+
+          }
+       });
+       }else{ alert("enter 12 digits aadhar no.");}
+       }else{alert("enter 10 digit mobile no");}
+       }
+       }else{alert("enter complete details");}
+       });
+       });
+</script>
+
+</html>

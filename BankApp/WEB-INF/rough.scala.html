@@ -1,0 +1,65 @@
+
+<div id = "activateContent">
+    <tr>
+        <td colspan=2>
+            <center><font size=7><b>Activate</b></font></center>
+        </td>
+    </tr>
+
+    <center>
+        <table id="activate">
+            <thead>
+            <tr>
+                <th><font size=4>user Id</font></th>
+            </tr>
+            </thead>
+            <tbody id = "activateBody">
+            </tbody>
+        </table>
+
+    </center>
+
+</div>
+
+$(document).ready(function(){
+$('#trasactionHistoryContent').hide();
+$('#activateContent').show();
+abc += '<td><button onclick="populateTransactionHistory('+ item["userId"] + ')"><b>TRANSACTION HISTORY</b></a></td>';
+abc +='<td><button onclick="populateActivate('+ item["userId"] + ')"><b>Acivate</b></td></a></td>';
+
+function populateActivate(userId) {
+var abc = '';
+$('#trasactionHistoryContent').hide();
+$('#viewListContent').hide();
+$('#activateContent').hide();
+
+$.ajax({
+url: "http://localhost:9000/activate/Customer/" + userId,
+type: "GET",
+dataType: "json",
+data: {roleId:"2"},
+success: function(data){
+console.log(JSON.stringify(data));
+
+alert(data.userID);
+$.each(data, function(i,item){
+
+abc += '<tr>';
+    abc += '<td>' + item["userId"] + '</td>';
+    abc += '</tr>';
+});
+
+$('#activateBody').html(abc);
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+}
+
+

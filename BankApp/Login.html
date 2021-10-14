@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <font color="blood red"></font>
+
+    <BR>
+    <BR>
+
+    <table cellpadding="2" width="20%" bgcolor="#fff2cc" align="center"
+           cellspacing="2">
+
+        <tr>
+            <td colspan=2>
+                <center><font size=6><b>Login</b></font></center>
+            </td>
+        </tr>
+
+        <tr>
+            <td> <b>User Id</b></td>
+            <td><input type="text" name="userid" id="userid" size="30"></td>
+        </tr>
+
+        <tr>
+            <td> <b>Password</b></td>
+            <td><input type="password" name="password" id="password" size="30"></td>
+        </tr>
+
+
+
+        <tr>
+            <td colspan="2"><button type="submit" id="button"  style="position:relative; left:125px; background-color:brown;color:white;width:100px;
+height:20px;" >Submit</button></td>
+        </tr>
+<div id="responsemessage"></div>
+
+        <a href="user.scala.html"></a><br>
+        <br>
+        <br>
+
+
+
+    </table>
+
+</body>
+ <script type="text/javascript" src="jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+
+$('button').click(function(e){
+    e.preventDefault();
+    var id=$("#userid").val();
+    var int=parseInt(id);
+    var password=$("#password").val();
+
+    
+    $.ajax({
+     url: "http://localhost:9000/check/login",
+     type: "GET",
+     dataType: 'json',
+     data: {userid:id ,
+             password:password},
+
+     success: function(response)
+     {
+        console.log("hi");
+        $('#responsemessage').html(response.message);
+        if(response.status ==200) {
+            if(response.roleId == "1") {
+              window.location.href='Admin.html?userId=' + response.userId;
+            }
+            if(response.roleId == "2") {
+               window.location.href='User.html?userId=' + response.userId;
+           }
+        }
+     },
+      error:function(response)
+      {console.log("bye");
+ }
+       
+
+
+});
+
+
+});
+
+
+});
+
+</script>
+</html>
+

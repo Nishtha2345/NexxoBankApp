@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <font color="blood red"></font>
+
+        <table cellpadding="10" width="50%" bgcolor="#fff2cc" align="center"
+               cellspacing="2">
+
+            <tr>
+                <td colspan=2>
+                    <center><font size=6><b>Deposit Cash</b></font></center>
+                </td>
+            </tr>
+
+            <tr>
+                <td> User Id</td>
+                <td><input type=text name="userId" id="userId" size="30"></td>
+            </tr>
+
+
+            <tr>
+                <td> Amount</td>
+                <td><input type=text name="amount" id="amount" size="30"></td>
+            </tr>
+
+
+            <tr>
+
+                <td colspan="2"><button type="button"   style="position:relative; left:125px; background-color:brown;color:white;width:100px;
+height:20px;" >Submit</button></td>
+                <div id="responsemessage"></div>
+        </table>
+</body>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+
+       $('button').click(function(e){
+       e.preventDefault();
+       var userId=$("#userId").val();
+       var amount=$("#amount").val();
+
+
+      $.ajax({
+        url: "http://localhost:9000/deposit/Money",
+        type: "POST",
+        dataType: 'json',
+        data: {
+               userId:userId,
+                 amount:amount
+                 },
+          success: function(response)
+          {
+             alert(response.message);
+             console.log(response);
+          },
+
+          error:function(response)
+          {console.log(response);
+
+          }
+
+       });
+       });
+</script>
+
+
+
+</html>

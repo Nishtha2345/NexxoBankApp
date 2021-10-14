@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<BR>
+<BR>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<a href="Login.html"><button>Logout</button> </a>
+
+<form action="Login.html" name="Admin Home Page" onSubmit="return(validate());"></form>
+  <font color="blood red">
+
+    <table cellpadding="3" width="40%" bgcolor="#fff2cc" align="center"
+           cellspacing="30">
+
+      <tr>
+        <td colspan=2>
+          <center><font size=6><b>Admin Home Page</b></font></center>
+          <BR>
+        </td>
+      </tr>
+      <BR>
+      <BR>
+      <tr>
+        <BR>
+        <BR>
+        <td><button style="position:relative; left:180px" onclick="window.location.href='Registration1.html'" name="button" type="button">Registration</button> </td>
+
+      </tr>
+
+      <tr>
+        <td><button style="position:relative; left:180px" onclick="window.location.href='ViewList.html'"name="button" type="button">View List</button></td>
+      </tr>
+      <div id="responsemessage"></div>
+    </table>
+  </font>
+</body>
+
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+var userId;
+getParams();
+
+});
+function getParams() {
+    var idx = document.URL.indexOf('?');
+    var params = new Array();
+    if (idx != -1) {
+        var pairs = document.URL.substring(idx + 1, document.URL.length).split('&');
+        for (var i = 0; i < pairs.length; i++) {
+            nameVal = pairs[i].split('=');
+            params[nameVal[0]] = nameVal[1];
+        }
+    }
+    userId = params["userId"];
+    populateUserData();
+}
+
+function populateUserData() {
+$.ajax({
+     url: "http://localhost:9000/getuserdata/" + userId,
+     type: "GET",
+     dataType: 'json',
+     success: function(response)
+     {
+      console.log(response);
+     },
+      error:function(response)
+      {console.log("bye");
+ }
+});
+
+
+
+}
+</script>
+
+
+
+
+
+</html>

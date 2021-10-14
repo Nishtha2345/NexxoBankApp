@@ -1,0 +1,24 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+#GET     /login                      controllers.HomeController.login()s
+#GET     /registration               controllers.HomeController.registration()
+#GET     /deposit                    controllers.HomeController.deposit()
+#GET     /withdraw                   controllers.HomeController.withdraw()
+#GET     /admin                      controllers.HomeController.admin()
+GET     /viewPage/:roleId    controllers.HomeController.viewPage(roleId:Integer)
+GET     /viewlist/:roleId                   controllers.HomeController.viewlist(roleId:Integer)
+POST    /save/data                  controllers.HomeController.saveData(request : Request)
+GET    /check/login                controllers.HomeController.checkLogin(request : Request)
+POST    /withdraw/Cash              controllers.HomeController.withdrawCash(request : Request)
+GET /getuserdata/:userId   controllers.HomeController.getUserData(request : Request , userId : Integer)
+POST    /deposit/Money              controllers.HomeController.depositMoney(request : Request)
+GET    /activate/Customer/:userId         controllers.HomeController.activateCustomer(userId : Integer)
+GET    /deactivate/Customer/:userId        controllers.HomeController.deactivateCustomer(userId : Integer)
+GET    /transaction/History/Customer/:userId  controllers.HomeController.transactionHistoryCustomer(request : Request, userId:Integer)
+GET    /viewTransactionpage/:userId  controllers.HomeController.transactionHistoryPage( userId:Integer)
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

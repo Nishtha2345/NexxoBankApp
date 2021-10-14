@@ -1,0 +1,110 @@
+<!Doctype html>
+<html>
+<title>Transaction History</title>
+<BR>
+<BR>
+<BR>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>  table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color:pink;
+                         }
+   .text1{
+   font-size: 18pt; height: 50px; width:200px;
+         }
+   </style>
+</head>
+<body>
+<form action="Login.html" name="Transaction History" onSubmit="return(validate());"></form>
+  <font color="blood red"></font>
+    <center><table  bgcolor="#fff2cc" align="center"></table></center>
+
+
+<div id = "trasactionHistoryContent">
+    <tr>
+        <td colspan=2>
+            <center><font size=7><b>Transaction History List</b></font></center>
+        </td>
+    </tr>
+
+    <center>
+        <table id="transactionHistoryTable">
+            <thead>
+            <tr>
+                <th><font size=4>user Id</font></th>
+                <th><font size=4>Amount</font></th>
+                <th><font size=4>Transaction Type Id</font></th>
+                <th><font size=4>Transaction Id</font></th>
+                <th><font size=4>Created On</font></th>
+            </tr>
+            </thead>
+            <tbody id = "transactionHistoryTableBody">
+            </tbody>
+        </table>
+
+    </center>
+
+</div>
+
+</center>
+</body>
+
+<script>
+$(document).ready(function(){
+var userId;
+getParams();
+
+});
+function getParams() {
+var idx = document.URL.indexOf('?');
+var params = new Array();
+if (idx != -1) {
+var pairs = document.URL.substring(idx + 1, document.URL.length).split('&');
+for (var i = 0; i < pairs.length; i++) {
+nameVal = pairs[i].split('=');
+params[nameVal[0]] = nameVal[1];
+}
+}
+userId = params["userId"];
+populateTransactionHistory();
+}
+
+function populateTransactionHistory() {
+var abc = '';
+$('#trasactionHistoryContent').show();
+
+$.ajax({
+url: "http://localhost:9000/transaction/History/Customer/" + userId,
+type: "GET",
+dataType: "json",
+success: function(data){
+console.log(JSON.stringify(data));
+
+$.each(data, function(i,item){
+
+abc += '<tr>';
+    abc += '<td>' + item["userId"] + '</td>';
+    abc += '<td>' + item["amount"]  + '</td>';
+    abc += '<td>' + item["transactionTypeId"]  + '</td>';
+    abc += '<td>' + item["transactionId"]  + '</td>';
+    abc += '<td>' + item["createdOn"]  + '</td>';
+    abc += '</tr>';
+});
+
+$('#transactionHistoryTableBody').html(abc);
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+}
+</script>
+</html>
+

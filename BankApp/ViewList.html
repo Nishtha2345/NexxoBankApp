@@ -1,0 +1,229 @@
+<html>
+<title>View List</title>
+<BR>
+<BR>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>  table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color:pink;
+                         }
+   .text1{
+   font-size: 18pt; height: 50px; width:200px;
+         }
+   </style>
+</head>
+<body>
+<div id = "viewListContent">
+                <center><font size=7><b>View List</b></font></center>
+                <center ><div style="color:green" id = "successDiv"></div></center>
+                <center ><div style="color:red" id = "errorDiv"></div></center>
+        <center>
+            <table id="viewListTable">
+            <thead>
+                <tr>
+                    <th><font size=4>user Id</font></th>
+                    <th><font size=4>First Name</font></th>
+                    <th><font size=4>Last Name</font></th>
+                    <th><font size=4>Role Type</font></th>
+                    <th><font size=4>Status</font></th>
+                    <th><font size=4>Aadhaar No</font></th>
+                    <th><font size=4>Mobile No</font></th>
+                    <th><font size=4>Transaction History</font></th>
+                    <th><font size=4>Activate</font></th>
+                    <th><font size=4>Deactivate</font></th>
+                </tr>
+            </thead>
+
+            <tbody id="autoresult">
+                </tbody>
+                <div id="responsemessage"></div>
+        </table>
+        </center>
+</div>
+<div id = "trasactionHistoryContent">
+            <center><font size=7><b>Transaction History List</b></font></center>
+    <center>
+        <table id="transactionHistoryTable">
+            <thead>
+            <tr>
+                <th><font size=4>user Id</font></th>
+                <th><font size=4>Amount</font></th>
+                <th><font size=4>Transaction Type Id</font></th>
+                <th><font size=4>Transaction Id</font></th>
+                <th><font size=4>Created On</font></th>
+            </tr>
+            </thead>
+            <tbody id = "transactionHistoryTableBody">
+            </tbody>
+        </table>
+    </center>
+</div>
+<div id = "activateContent">
+            <center><font size=7><b>Activate</b></font></center>
+    <center>
+        <table id="activate">
+            <thead>
+            <tr>
+                <th><font size=4>status</font></th>
+            </tr>
+            </thead>
+            <tbody id = "activateBody">
+            </tbody>
+        </table>
+    </center>
+</div>
+<div id = "deactivateContent">
+            <center><font size=7><b>Deactivate</b></font></center>
+    <center>
+        <table id="deactivate">
+            <thead>
+            <tr>
+                <th><font size=4>status</font></th>
+            </tr>
+            </thead>
+            <tbody id = "deactivateBody">
+            </tbody>
+        </table>
+    </center>
+</div>
+</body>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+populateViewList();
+});
+
+function populateViewList(){
+$('#trasactionHistoryContent').hide();
+$('#activateContent').hide();
+$('#deactivateContent').hide();
+var abc = '' ;
+$.ajax({
+url: "http://localhost:9000/viewlist/2",
+type: "GET",
+dataType: "json",
+success: function(data){
+ console.log(JSON.stringify(data));
+
+$.each(data, function(i,item){
+
+abc += '<tr>';
+abc += '<td>' + item["userId"] + '</td>';
+abc += '<td>' + item["firstName"]  + '</td>';
+abc += '<td>' + item["lastName"]  + '</td>';
+abc += '<td>' + item["role"]  + '</td>';
+abc += '<td>' + item["status"]  + '</td>';
+abc += '<td>' + item["aadhaarNo"]  + '</td>';
+abc += '<td>' + item["mobileNo"]  + '</td>';
+abc += '<td><button onclick="populateTransactionHistory('+ item["userId"] + ')"><b>TRANSACTION HISTORY</b></a></td>';
+abc +='<td><button onclick="populateActivate('+ item["userId"] + ')"><b>Activate</b></td></a></td>';
+abc +='<td><button onclick="populateDeactivate('+ item["userId"] + ')"><b>Deactivate</b></td></a></td>';
+abc += '</tr>';
+});
+
+$('#autoresult').html(abc);
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+
+}
+
+
+function populateTransactionHistory(userId) {
+var abc = '';
+$('#trasactionHistoryContent').show();
+$('#viewListContent').hide();
+$('#activateContent').hide();
+$('#deactivateContent').hide();
+$.ajax({
+url: "http://localhost:9000/transaction/History/Customer/" + userId,
+type: "GET",
+dataType: "json",
+success: function(data){
+ console.log(JSON.stringify(data));
+$.each(data, function(i,item){
+
+abc += '<tr>';
+abc += '<td>' + item["userId"] + '</td>';
+abc += '<td>' + item["amount"]  + '</td>';
+abc += '<td>' + item["transactionTypeId"]  + '</td>';
+abc += '<td>' + item["transactionId"]  + '</td>';
+abc += '<td>' + item["createdOn"]  + '</td>';
+abc += '</tr>';
+});
+
+$('#transactionHistoryTableBody').html(abc);
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+}
+
+function populateActivate(userId) {
+$.ajax({
+url: "http://localhost:9000/activate/Customer/" + userId,
+type: "GET",
+dataType: "json",
+success: function(data){
+if(data.status == 200) {
+populateViewList();
+$('#successDiv').html(data.message);
+} else {
+$('#errorDiv').html(data.message);
+
+}
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+}
+
+function populateDeactivate(userId) {
+$.ajax({
+url: "http://localhost:9000/deactivate/Customer/" + userId,
+type: "GET",
+dataType: "json",
+success: function(data){
+if(data.status == 200) {
+populateViewList();
+$('#successDiv1').html(data.message);
+} else {
+$('#errorDiv').html(data.message);
+
+}
+},
+error:function(error)
+{console.log('error ${error}');
+console.log(JSON.stringify(error));
+
+}
+
+});
+
+
+}
+</script>
+</html>
